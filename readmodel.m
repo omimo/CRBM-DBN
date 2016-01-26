@@ -1,7 +1,7 @@
 load('crbmconfig_sean_100h_3p.mat')
 
 % for now, just using another CRBM as a template, and to fill in the mean, std, and other variables that we didn't read from python
-load('Features_AV/Snapshots/av_feat_crbm_4layer_exp17_sean_lay1_100hid_6ord_10cd_gaussian_crbm_ep100.mat')
+load('av_feat_crbm_4layer_exp17_sean_lay1_100hid_6ord_10cd_gaussian_crbm_ep100.mat')
 
 CRBMConfig_p = CRBMConfig;
 CRBMConfig_p.model.w = W';

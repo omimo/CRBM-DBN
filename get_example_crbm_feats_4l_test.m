@@ -2,10 +2,10 @@ clear
 
 % Load the mocap data in exponential maps - each sequence inside a cell
 % matrix
-load('sean_rc40fps.mat')
-%load('mered_rc.mat')
-M{1} = Motion{1};
-Motion = M;
+% load('sean_rc40fps.mat')
+% %load('mered_rc.mat')
+% M{1} = Motion{1};
+% Motion = M;
 
 % Load the model parameters of the first layer
 load('crbmconfig_sean_100h_3p.mat')
@@ -24,13 +24,14 @@ CRBMConfig_p.numdims = 52;
 CRBMConfig_p.numhid = 150;
 
 
-inputdata = [];
-% Run the pre-processing routines to convert the raw mocap to CRBM input
-for m=1:length(Motion)
-    inputdata = [inputdata; Prep_CRBMData(Motion{m}, skel, CRBMConfig_p)];
-end 
+% inputdata = [];
+% % Run the pre-processing routines to convert the raw mocap to CRBM input
+% for m=1:length(Motion)
+%     inputdata = [inputdata; Prep_CRBMData(Motion{m}, skel, CRBMConfig_p)];
+% end 
 
-
+load Motion-Sean-Pre1
+inputdata = Motion{1};
 % Run a bottom-up tranform to get the features of the layers
 feat1 = exp2crbmfeat(inputdata, skel, CRBMConfig_p);
 

@@ -28,27 +28,22 @@ vbias = model['vbias'];
 bjstar = np.zeros((150,));
 delay = 3;
 b = np.zeros((batchdata.shape[0]-delay,150));
-#print hbias.shape;
 
 for j in range(delay, batchdata.shape[0]): 
-
 	bjstar = np.zeros((150,));
-	for i in range(0, delay):
-		x = np.tile(batchdata[j-i-1,:], (150, 1));
+	for i in range(0, 150):
+		for k in range(0, delay):
+			bjstar[i] =  bjstar[i] + batchdata[j-k-1,:].dot(B[k*52:k*52+52, i]);
 
-		print x.shape;
-		print B[i*delay:i*delay+52, :].shape;
-		bjstar = bjstar + np.multiply(x, B[i*delay:i*delay+52, :]);
 
 	b[j-delay] = hbias + bjstar.transpose();
 
-print bjstar.shape;
 
 
-
-bottomup = np.multiply(batchdata[delay:,:], W);
+bottomup = np.dot(batchdata[delay:,:], W);
 
 p = np.divide(1 , (1 + np.exp(-b - bottomup)));
+print p[0:5, 0:5];
 scipy.io.savemat('python_feat1.mat',{'python_feat1':p, 'python_b':b, 'python_bottomup':bottomup});
 
 

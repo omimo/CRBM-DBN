@@ -337,9 +337,8 @@ class CRBM(object):
         return generated_series
 
 
-def train_crbm(learning_rate, training_epochs,
-             batchdata, seqlen, data_mean, data_std, n_visible, batch_size,
-             n_hidden, delay):
+def train_crbm(config,
+             batchdata, seqlen, data_mean, data_std):
     """
     Demonstrate how to train a CRBM.
     This is demonstrated on mocap data.
@@ -360,6 +359,14 @@ def train_crbm(learning_rate, training_epochs,
     # batchdata is returned as theano shared variable floatX
     # batchdata, seqlen, data_mean, data_std = load_data(dataset)
     #batchdata, seqlen, data_mean, data_std = load_data_ms3(dataset)
+
+    learning_rate = config['learning_rate'];
+    training_epochs = config['training_epochs'];
+    n_visible = config['n_visible'];
+    batch_size = config['batch_size'];
+    n_hidden = config['n_hidden'];
+    delay = config['delay'];
+
 
     # compute number of minibatches for training, validation and testing
     n_train_batches = batchdata.get_value(borrow=True).shape[0] / batch_size

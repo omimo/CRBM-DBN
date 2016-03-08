@@ -31,31 +31,26 @@ def sample_h_v(batchdata, B, hbias, delay, n_hidden, n_visible):
 if __name__ == '__main__':
 	#loading datasets
 	dataset = 'Motion-Sean-Pre1.mat';
-	mat_dict = scipy.io.loadmat('Motion-Sean-Pre1.mat');
-	model = scipy.io.loadmat('crbmconfig_sean_100h_3p.mat');
+	mat_dict = scipy.io.loadmat(dataset);
+
+	batchdata1, seqlen, data_mean, data_std = motion.load_data_ms3(dataset);
 
 	#extracting variables
 	Motion = mat_dict['Motion'];
 	data = Motion[0,0];
 
-	A = model['A'];
-	B = model['B'];
-	W = model['W'];
-	hbias = model['hbias'];
-	vbias = model['vbias'];
-
 	#setting CRBM parameters
 	n_visible = data.shape[1];
-	n_hidden = B.shape[1];
-	delay = B.shape[0]/n_visible;
+	n_hidden = 150;
+	delay = 3;
 
 	learning_rate = 1e-3;
 	training_epoch = 200;
 	batchsize = 100;
 
 	#train CRBM and sample hidden giving visible
-	crbm, batchdata = CO.train_crbm(learning_rate, training_epoch, dataset, n_visible, batchsize, n_hidden, delay);
-	p = sample_h_v(data, B, hbias, delay, n_hidden, n_visible);
+	crbm, batchdata_l1 = CO.train_crbm(learning_rate, training_epoch, batchdata1, seqlen, data_mean, data_std, n_visible, batchsize, n_hidden, delay);
+	p = sample_h_v(data, crbm.B.get_value(), crbm.hbias.get_value(), delay, n_hidden, n_visible);
 
 
 

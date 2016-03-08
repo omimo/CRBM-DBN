@@ -337,9 +337,9 @@ class CRBM(object):
         return generated_series
 
 
-def train_crbm(learning_rate=1e-3, training_epochs=200,
-             dataset='Motion-Sean-Pre1.mat', n_visible=52, batch_size=100,
-             n_hidden=150, delay=3):
+def train_crbm(learning_rate, training_epochs,
+             batchdata, seqlen, data_mean, data_std, n_visible, batch_size,
+             n_hidden, delay):
     """
     Demonstrate how to train a CRBM.
     This is demonstrated on mocap data.
@@ -359,7 +359,7 @@ def train_crbm(learning_rate=1e-3, training_epochs=200,
 
     # batchdata is returned as theano shared variable floatX
     # batchdata, seqlen, data_mean, data_std = load_data(dataset)
-    batchdata, seqlen, data_mean, data_std = load_data_ms3(dataset)
+    #batchdata, seqlen, data_mean, data_std = load_data_ms3(dataset)
 
     # compute number of minibatches for training, validation and testing
     n_train_batches = batchdata.get_value(borrow=True).shape[0] / batch_size
@@ -451,6 +451,7 @@ def train_crbm(learning_rate=1e-3, training_epochs=200,
 
 if __name__ == '__main__':
     crbm, batchdata = train_crbm()
+    
 
     with open('crbmconfig_sean_100h_3p.pkl', 'wb') as output:
         pickle.dump(crbm, output, pickle.HIGHEST_PROTOCOL)

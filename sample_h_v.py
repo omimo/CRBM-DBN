@@ -25,6 +25,8 @@ W = model['W'];
 hbias = model['hbias'];
 vbias = model['vbias'];
 
+print B.shape;
+
 bjstar = np.zeros((150,));
 delay = 3;
 b = np.zeros((batchdata.shape[0]-delay,150));
@@ -43,7 +45,7 @@ for j in range(delay, batchdata.shape[0]):
 bottomup = np.dot(batchdata[delay:,:], W);
 
 p = np.divide(1 , (1 + np.exp(-b - bottomup)));
-print p[0:5, 0:5];
+#print p[0:5, 0:5];
 scipy.io.savemat('python_feat1.mat',{'python_feat1':p, 'python_b':b, 'python_bottomup':bottomup});
 
 

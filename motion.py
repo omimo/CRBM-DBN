@@ -121,5 +121,26 @@ def load_data_ms3(filename):
 
     return shared_x, seqlen, data_mean, data_std
 
+
+def load_data_crbm(features):
+
+    n_seq = features.shape[1]
+
+    # collapse sequences
+    batchdata = np.concatenate([m for m in features.flat], axis=0)
+
+    data_mean = batchdata.mean(axis=0)
+    data_std = batchdata.std(axis=0)
+
+    batchdata = (batchdata - data_mean) / data_std
+
+    # get sequence lengths
+    seqlen = [s.shape[0] for s in features.flat]
+    
+    # put data into shared memory
+    shared_x = theano.shared(np.asarray(batchdata, dtype=theano.config.floatX))
+
+    return shared_x, seqlen, data_mean, data_std
+
 if __name__ == "__main__":
     batchdata, seqlen, data_mean, data_std = load_data('motion.mat')

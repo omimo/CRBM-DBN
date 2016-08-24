@@ -8,10 +8,10 @@ clear
 % Motion = M;
 
 % Load the model parameters of the first layer
-load('crbmconfig_sean_100h_3p.mat')
+load('crbmconfig_1.mat')
 
 % for now, just using another CRBM as a template, and to fill in the mean, std, and other variables that we didn't read from python
-load('av_feat_crbm_4layer_exp17_sean_lay1_100hid_6ord_10cd_gaussian_crbm_ep100.mat')
+load('crbmconfig_lay1_150hid_6ord_ep2000.mat')
 
 CRBMConfig_p = CRBMConfig;
 CRBMConfig_p.model.w = W';

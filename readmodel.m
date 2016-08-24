@@ -1,18 +1,25 @@
-load('crbmconfig_sean_100h_3p.mat')
+%%
+load 'crbmconfig_1.mat'
 
-% for now, just using another CRBM as a template, and to fill in the mean, std, and other variables that we didn't read from python
-load('av_feat_crbm_4layer_exp17_sean_lay1_100hid_6ord_10cd_gaussian_crbm_ep100.mat')
+%%
 
-CRBMConfig_p = CRBMConfig;
-CRBMConfig_p.model.w = W';
-CRBMConfig_p.model.A = reshape(A', 52,52,3);
-CRBMConfig_p.model.B = reshape(B', 100,52,3);
-CRBMConfig_p.model.bj = hbias';
-CRBMConfig_p.model.bi = vbias';
+CRBMConfig.numdims = PyCRBMConfig.n_visible;
+CRBMConfig.numhid = PyCRBMConfig.n_hidden;
+CRBMConfig.numepochs = PyCRBMConfig.training_epochs;
+CRBMConfig.gsd = 1;
+CRBMConfig.order = PyCRBMConfig.delay;
+CRBMConfig.data_mean = PyCRBMConfig.data_mean;
+CRBMConfig.data_std = PyCRBMConfig.dat_mean;
+CRBMConfig.model.w = W';
+CRBMConfig.model.A = reshape(A', 52,52,3);
+CRBMConfig.model.B = reshape(B', 100,52,3);
+CRBMConfig.model.bj = hbias';
+CRBMConfig.model.bi = vbias';
 
 
+%%
 
-GenLog = gen_crbm(CRBMConfig_p,MotionData,200,10);
+GenLog = gen_crbm(CRBMConfig,MotionData,200,10);
 
 imagesc(GenLog.hidden{1}'); colormap gray;
 GenLog = Post_AddEmpty(GenLog, MotionData,0);
